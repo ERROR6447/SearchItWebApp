@@ -21,6 +21,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SearchIt.DataAccess\SearchIt.DataAccess.csproj" />
+    <ProjectReference Include="..\SearchIt.Utility\SearchIt.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\Users\" />
   </ItemGroup>
 
 </Project>

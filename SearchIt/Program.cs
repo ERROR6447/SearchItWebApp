@@ -3,6 +3,10 @@ using SearchIt.DataAccess.Data;
 using SearchIt.DataAccess.Repository;
 using SearchIt.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using SearchIt.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using BulkyBook.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,16 +16,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConn")
     ));
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.ConfigureApplicationCookie(options =>  //solves the error of login required redirection when using the app and 
 {                                                      //want to use functionality that requires user to be logged in 
     options.LoginPath = $"/Identity/Account/Login";
     options.LogoutPath = $"/Identity/Account/Loginout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+    
 });
 
 var app = builder.Build();

@@ -235,6 +235,9 @@ namespace SearchIt.DataAccess.Migrations
                     b.Property<DateTime?>("AppliedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Id")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
@@ -364,6 +367,10 @@ namespace SearchIt.DataAccess.Migrations
                     b.Property<int>("TotalVacancies")
                         .HasColumnType("int");
 
+                    b.Property<string>("TypeOfJob")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
@@ -420,6 +427,10 @@ namespace SearchIt.DataAccess.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CompanyId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<string>("CvUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -456,6 +467,8 @@ namespace SearchIt.DataAccess.Migrations
 
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -567,6 +580,17 @@ namespace SearchIt.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Postings");
+                });
+
+            modelBuilder.Entity("SearchIt.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("SearchIt.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,6 +26,7 @@ namespace SearchIt.Models
         [ForeignKey("CompanyId")]
         [ValidateNever]
         public Company Company { get; set; }
+        public string TypeOfJob { get; set; }
         
 
     }
