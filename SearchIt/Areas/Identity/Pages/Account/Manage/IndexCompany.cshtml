@@ -1,0 +1,162 @@
+﻿@page
+@model IndexModelCompany
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-9">
+       @* <form id="profile-form" class="row g-3" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-floating col-md-6 ">
+                <input asp-for="Username" class="form-control" disabled />
+                <label asp-for="Username" class="form-label"></label>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.Dob"  class="form-control" />
+                <label asp-for="Input.Dob" class="form-label"></label>
+                <span asp-validation-for="Input.Dob" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.Gender"  class="form-control" />
+                <label asp-for="Input.Gender" class="form-label"></label>
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
+            
+            
+                  
+            <div class="form-floating col-12">
+                <input asp-for="Input.StreetAddress"  class="form-control" />
+                <label asp-for="Input.StreetAddress" class="form-label"></label>
+                <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.City"  class="form-control" />
+                <label asp-for="Input.City" class="form-label"></label>
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.State"  class="form-control" />
+                <label asp-for="Input.State" class="form-label"></label>
+                <span asp-validation-for="Input.State" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.PostalCode"  class="form-control" />
+                <label asp-for="Input.PostalCode" class="form-label"></label>
+                <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.Country"  class="form-control" />
+                <label asp-for="Input.Country" class="form-label"></label>
+                <span asp-validation-for="Input.Country" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.Highest_Qualification"  class="form-control" />
+                <label asp-for="Input.Highest_Qualification" class="form-label"></label>
+                <span asp-validation-for="Input.Highest_Qualification" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.Experience"  class="form-control" />
+                <label asp-for="Input.Experience" class="form-label"></label>
+                <span asp-validation-for="Input.Experience" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.AreaOfInterest"  class="form-control" />
+                <label asp-for="Input.AreaOfInterest" class="form-label"></label>
+                <span asp-validation-for="Input.AreaOfInterest" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.LastPosition"  class="form-control" />
+                <label asp-for="Input.LastPosition" class="form-label"></label>
+                <span asp-validation-for="Input.LastPosition" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+                <input asp-for="Input.PreferredLocation"  class="form-control" />
+                <label asp-for="Input.PreferredLocation" class="form-label"></label>
+                <span asp-validation-for="Input.PreferredLocation" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-md-6">
+               <input type="file" id="uploadBox" name="file" class="form-control" />
+            </div>
+            
+        </form> *@
+         <form id="profile-form" class="row g-3" method="post" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+            <div class="form-group col-6 ">
+                <label asp-for="Input.CompName" class="control-label"></label>
+                <input asp-for="Input.CompName" class="form-control" />
+                <span asp-validation-for="Input.CompName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Input.CompWebsite" class="control-label"></label>
+                <input asp-for="Input.CompWebsite" class="form-control" />
+                <span asp-validation-for="Input.CompWebsite" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <label asp-for="Input.StreetAddress" class="control-label"></label>
+                <input asp-for="Input.StreetAddress" class="form-control" />
+                <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group col-4">
+                <label asp-for="Input.City" class="control-label"></label>
+                <input asp-for="Input.City" class="form-control" />
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="form-group col-4">
+                <label asp-for="Input.State" class="control-label"></label>
+                <input asp-for="Input.State" class="form-control" />
+                <span asp-validation-for="Input.State" class="text-danger"></span>
+            </div>
+            <div class="form-group col-4">
+                <label asp-for="Input.PostalCode" class="control-label"></label>
+                <input asp-for="Input.PostalCode" class="form-control" />
+                <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Input.Country" class="control-label"></label>
+                <input asp-for="Input.Country" class="form-control" />
+                <span asp-validation-for="Input.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Input.PhoneNumber" class="control-label"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Input.CompEmail" class="control-label"></label>
+                <input asp-for="Input.CompEmail" class="form-control" />
+                <span asp-validation-for="Input.CompEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Input.TypeOfCompany" class="control-label"></label>
+                <input asp-for="Input.TypeOfCompany" class="form-control" />
+                <span asp-validation-for="Input.TypeOfCompany" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+               <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            </div>
+            </div>
+        </form>
+    </div>
+    @*<div class="col-3" >
+        <img src="@Model.Input.ImageUrl" style="border-radius:5px; border:1px solid #bbb9b9" />
+    </div>*@
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

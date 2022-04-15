@@ -1,9 +1,21 @@
 ﻿@inject SignInManager<SearchIt.Models.ApplicationUser> SignInManager
+@inject UserManager<SearchIt.Models.ApplicationUser> UserManager
+@inject SearchIt.DataAccess.Repository.IRepository.IUnitOfWork _unitOfWork
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var UserId = UserManager.GetUserId(User);
+    var UsersInfo = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == UserId);
+    var companyId = UsersInfo.CompanyId;
 }
 <ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+    @if(companyId == null){
+        <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+    }
+    else
+    {
+        <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./IndexCompany">Profile</a></li>
+        
+    }
     <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
     @if (hasExternalLogins)
