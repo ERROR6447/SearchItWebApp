@@ -2,13 +2,29 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject SearchIt.DataAccess.Repository.IRepository.IUnitOfWork _unitOfWork
+
+@{
+    var UserId = UserManager.GetUserId(User);
+    var UsersInfo = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == UserId);
+    int? CompanyId = null;
+    if(UsersInfo != null)
+    {
+        CompanyId = UsersInfo.CompanyId;
+    }
+}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
         <li class="nav-item">
+            @if(CompanyId==null){
             <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-            
+            }
+            else{
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/IndexCompany" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+
+            }
             
         </li>
     <li class="nav-item">
