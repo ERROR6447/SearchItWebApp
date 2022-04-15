@@ -56,15 +56,17 @@ namespace SearchItApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompName,CompWebsite,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedDate")] Company Companies)
+        public async Task<IActionResult> Create([Bind("Id,CompName,CompWebsite,StreetAddress,City,State,PostalCode,PhoneNumber,Country,CompEmail,TypeOfCompany")] Company Companies)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(Companies);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var id = Companies.Id;
+                return LocalRedirect($"/Identity/Account/Register?CompId={id}");
             }
-            return View(Companies);
+            
+           return View(Companies);
         }
 
         // GET: Companies/Edit/5
@@ -88,7 +90,7 @@ namespace SearchItApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompName,CompWebsite,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedDate")] Company Companies)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CompName,CompWebsite,StreetAddress,City,State,PostalCode,PhoneNumber,Country,CompEmail,TypeOfCompany")] Company Companies)
         {
             if (id != Companies.Id)
             {

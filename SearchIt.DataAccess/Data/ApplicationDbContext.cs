@@ -24,7 +24,7 @@ namespace SearchIt.DataAccess.Data
     //    public DbSet<ReportPost> ReportPosts { get; set; }
      //   public DbSet<ReportUser> ReportUsers { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<AppliedFor> AppliedFors { get; set; }
+        public DbSet<ApplyFor> AppliedFors { get; set; }
 
     }
 }

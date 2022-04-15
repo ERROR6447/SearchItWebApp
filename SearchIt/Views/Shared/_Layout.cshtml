@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SearchIt</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SearchIt.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/SearchIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -36,6 +39,9 @@
                             <li><a class="dropdown-item" asp-area="" asp-controller="Postings" asp-action="Index">Postings</a></li>
                             
                             <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Search" asp-action="Index">Search</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="AppliedFor" asp-action="Index">AppliedFor</a></li>
+
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                           </ul>
                          </li>

@@ -80,9 +80,11 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             public string? City { get; set; }
             public string? State { get; set; }
             public string? PostalCode { get; set; }
+            public string? Country { get; set; }
 
             public string? AreaOfInterest { get; set; }
             public string? PreferredLocation { get; set; }
+          
 
         }
 
@@ -108,8 +110,10 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                 State = user.State,
                 PostalCode = user.PostalCode,
                 AreaOfInterest = user.AreaOfInterest,
-                PreferredLocation = user.PreferredLocation
-
+                PreferredLocation = user.PreferredLocation,
+                Country = user.Country,
+                
+                
             };
         }
 
@@ -184,7 +188,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             user.PostalCode = Input.PostalCode;
             user.AreaOfInterest = Input.AreaOfInterest;
             user.PreferredLocation = Input.PreferredLocation;
-
+            user.Country = Input.Country;
         
             await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);

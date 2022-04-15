@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 
 namespace SearchIt.Models
 {
-    [Keyless]
-    public class AppliedFor
+   
+    public class ApplyFor
     {
+       // [Key]
+      //  public int? Id { get; set; }
         [Key]
-        public int? Id { get; set; }
+        public int ApplyId { get; set; }
         public int? PostId { get; set; }
         [ForeignKey("PostId")]
         [ValidateNever]
@@ -24,5 +26,6 @@ namespace SearchIt.Models
         [ValidateNever]
         public ApplicationUser User { get; set; }
         public DateTime? AppliedAt { get; set; } = DateTime.Now;
+        public string? ApplyStatus;
     }
 }

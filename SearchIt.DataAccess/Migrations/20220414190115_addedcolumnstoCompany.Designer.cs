@@ -12,8 +12,8 @@ using SearchIt.DataAccess.Data;
 namespace SearchIt.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220413150533_AddChangestoMigration")]
-    partial class AddChangestoMigration
+    [Migration("20220414190115_addedcolumnstoCompany")]
+    partial class addedcolumnstoCompany
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -232,13 +232,16 @@ namespace SearchIt.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SearchIt.Models.AppliedFor", b =>
+            modelBuilder.Entity("SearchIt.Models.ApplyFor", b =>
                 {
+                    b.Property<int>("ApplyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplyId"), 1L, 1);
+
                     b.Property<DateTime?>("AppliedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("Id")
-                        .HasColumnType("int");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -246,6 +249,8 @@ namespace SearchIt.DataAccess.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ApplyId");
 
                     b.HasIndex("PostId");
 
@@ -285,11 +290,17 @@ namespace SearchIt.DataAccess.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CompEmail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CompName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompWebsite")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedDate")
@@ -305,6 +316,9 @@ namespace SearchIt.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeOfCompany")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -337,12 +351,21 @@ namespace SearchIt.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("CompanyId")
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("MinExp")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostDescription")
@@ -355,16 +378,24 @@ namespace SearchIt.DataAccess.Migrations
                     b.Property<int>("PostLike")
                         .HasColumnType("int");
 
-                    b.Property<string>("PostLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("PostMaxSal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PostMinSal")
+                        .HasColumnType("float");
 
                     b.Property<string>("PostName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("PostSal")
-                        .HasColumnType("float");
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalVacancies")
                         .HasColumnType("int");
@@ -432,6 +463,9 @@ namespace SearchIt.DataAccess.Migrations
                     b.Property<int?>("CompanyId")
                         .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CvUrl")
                         .HasColumnType("nvarchar(max)");
@@ -526,7 +560,7 @@ namespace SearchIt.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SearchIt.Models.AppliedFor", b =>
+            modelBuilder.Entity("SearchIt.Models.ApplyFor", b =>
                 {
                     b.HasOne("SearchIt.Models.Postings", "Postings")
                         .WithMany()

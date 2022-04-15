@@ -10,6 +10,9 @@ namespace SearchIt.DataAccess.Repository.IRepository
     {
         //here we declare the interface of all the interface implementation we want in our IUnitOfWork
         IApplicationUserRepository ApplicationUser { get; }
+        IPostingsRepository Postings { get; }
+        ICompanyRepository Company { get; }
+        IApplyForRepository Apply { get; }
         void Save();
     }
 }
