@@ -29,6 +29,7 @@ namespace SearchIt.Models
         public string? State { get; set; }
         public string? PostalCode { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? Country { get; set; }
         public string? AreaOfInterest { get; set; }
         public string? PreferredLocation { get; set; }
         public int? CompanyId { get; set; }

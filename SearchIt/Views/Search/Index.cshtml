@@ -1,0 +1,117 @@
+﻿@model SearchIt.Models.ViewModels.PostingsViewModel
+
+@{
+    ViewData["Title"] = "Search Job";
+}
+
+
+    <div class="tr-job-posted section-padding">
+    <div class="container">
+		<div class="job-tab text-center">
+			<div class="row">
+    <div class="col-lg-12 card-margin">
+        <div class=" search-form">
+            
+                <form id="search-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row no-gutters ">
+                                <div class="col-lg-2 col-md-2	 col-sm-12 p-0">
+									 <select asp-for="SearchState" asp-items="@Model.StateList" class="form-select" >
+											<option value="" selected>State</option>
+									</select>
+                                
+                                </div>
+								<div class="col-lg-2 col-md-2 col-sm-12 p-0">
+									 <select asp-for="SearchCity" asp-items="@Model.CityList" class="form-select" >
+											<option value="" selected>City</option>
+									</select>
+                                
+                                </div>
+                                <div class="col-lg-7 col-md-5 col-sm-12 p-0">
+                                    <input type="text" placeholder="Search..." class="form-control" id="search" name="search">
+                                </div>
+                                <div class="col-lg-1 col-md-2 col-sm-12 p-0">
+                                    <button type="submit" class="btn btn-base">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+           
+        </div>
+    </div>
+</div>
+			<div class="tab-content text-left py-2">
+				<div role="tabpanel" class="tab-pane fade active show" id="hot-jobs">
+					<div class="row">
+						@foreach(Postings post in @Model.posts){
+							<div class="col-md-6 col-lg-3">
+							<div class="job-item">
+								<div class="item-overlay">
+									<div class="job-info">
+										<a href="#" class="btn btn-primary">@post.TypeOfJob</a>
+										<span class="tr-title">
+											<a href="#">@post.PostName</a>
+											<span><a href="#">Dig File</a></span>
+										</span>
+										<ul class="tr-list job-meta">
+											
+											<li><i class="fa-solid fa-signs-post"  aria-hidden="true"></i>@post.StreetAddress,@post.City,@post.State </li>
+											<li><i class="fa-solid fa-briefcase" aria-hidden="true"></i>Mid Level</li>
+											<li><i class="fa-solid fa-money" aria-hidden="true"></i>@post.PostMinSal - @post.PostMaxSal</li>
+										</ul>
+										<ul class="job-social tr-list">
+											<li><a href="#"><i onclick="ChangeLike(this)" id="heart" class="fa fa-heart" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-expand" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-bookmark-o" aria-hidden="true"></i></a></li>
+											<li><a asp-controller="Postings" asp-action="PostDetails" asp-route-id="@post.Id" ><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></li>
+										</ul>
+									</div>										
+								</div>
+								<div class="job-info">
+									<div class="company-logo">
+										<img src="https://via.placeholder.com/300x100/7B68EE/000000" alt="images" class="img-fluid">
+									</div>
+									<span class="tr-title">
+										<a href="#">@post.PostName</a>
+										<span><a href="#">Dig File</a></span>
+									</span>
+									<ul class="tr-list job-meta">
+										<li><span><i class="fa fa-map-signs" aria-hidden="true"></i></span>@post.StreetAddress,@post.City,@post.State</li>
+										<li><span><i class="fa fa-briefcase" aria-hidden="true"></i></span>Mid Level</li>
+										<li><span><i class="fa fa-money" aria-hidden="true"></i></span>@post.PostMinSal - @post.PostMaxSal</li>
+									</ul>
+									<div class="time">
+										<a href="#"><span>@post.TypeOfJob</span></a>
+										<span class="pull-right">Posted 23 hours ago</span>
+									</div>																				
+								</div>
+							</div>
+						</div>
+						
+						}
+						
+					</div><!-- /.row -->	
+				</div><!-- /.tab-pane -->
+			</div>				
+		</div><!-- /.job-tab -->			
+	</div><!-- /.container -->
+</div>
+@section Scripts{
+	<script>
+		function ChangeLike(x) {
+			
+		  //var heart= document.getElementById("heart")
+		  if(x.style["color"] == "red"){
+			  x.style["color"] = "";
+			 
+		  }else{
+			  x.style["color"] = "red";
+		  }
+		}
+	</script>
+
+}

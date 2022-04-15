@@ -9,20 +9,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SearchIt.DataAccess.Repository.IRepository;
+using SearchIt.Models;
 
 namespace SearchItApp.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IWebHostEnvironment _hostEnv;
+        private readonly IUnitOfWork _UnitOfWork; 
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IWebHostEnvironment hostEnv,
+            IUnitOfWork unitofWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _hostEnv = hostEnv;
+            _UnitOfWork = unitofWork;
+
         }
 
         /// <summary>
@@ -58,9 +67,28 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string UserName { get; set; }
+            
+            public DateTime? Dob { get; set; }
+            public string? Gender { get; set; }
+            public string Highest_Qualification { get; set; }
+
+            public int? Experience { get; set; }
+            public string? LastPosition { get; set; }
+            public string? ImageUrl { get; set; }
+            public string? StreetAddress { get; set; }
+            public string? City { get; set; }
+            public string? State { get; set; }
+            public string? PostalCode { get; set; }
+            public string? Country { get; set; }
+
+            public string? AreaOfInterest { get; set; }
+            public string? PreferredLocation { get; set; }
+          
+
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -69,7 +97,23 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                UserName = user.UserName,
+                Dob = user.Dob,
+                Gender = user.Gender,
+                Highest_Qualification = user.Highest_Qualification,
+                Experience = user.Experience,
+                LastPosition = user.LastPosition,
+                ImageUrl = user.ImageUrl,
+                StreetAddress = user.StreetAddress,
+                City = user.City,
+                State = user.State,
+                PostalCode = user.PostalCode,
+                AreaOfInterest = user.AreaOfInterest,
+                PreferredLocation = user.PreferredLocation,
+                Country = user.Country,
+                
+                
             };
         }
 
@@ -85,9 +129,11 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormFile? file)
         {
             var user = await _userManager.GetUserAsync(User);
+
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -98,7 +144,28 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
+            if (file != null)
+            {
+                string rootpath = _hostEnv.WebRootPath;
 
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(rootpath, @"Images\Users");
+                var extension = Path.GetExtension(file.FileName);
+                if (user.ImageUrl != null)
+                {
+                    var oldImagePath = Path.Combine(rootpath, user.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+                user.ImageUrl = @"\Images\Users\" + fileName + extension;
+
+            }
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -109,8 +176,23 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            user.Dob = Input.Dob;
+            user.Gender = Input.Gender;
+            user.Highest_Qualification = Input.Highest_Qualification;
+            user.Experience = Input.Experience;
+            user.LastPosition = Input.LastPosition;
 
+            user.StreetAddress = Input.StreetAddress;
+            user.City = Input.City;
+            user.State = Input.State;
+            user.PostalCode = Input.PostalCode;
+            user.AreaOfInterest = Input.AreaOfInterest;
+            user.PreferredLocation = Input.PreferredLocation;
+            user.Country = Input.Country;
+        
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
+            
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SearchIt</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SearchIt.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/SearchIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -25,7 +28,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                         <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                          </a>
+                          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Companies" asp-action="Index">Companies</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="KeySkills" asp-action="Index">Key Skills</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Postings" asp-action="Index">Postings</a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Search" asp-action="Index">Search</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="AppliedFor" asp-action="Index">AppliedFor</a></li>
+
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                          </ul>
+                         </li>
                     </ul>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>

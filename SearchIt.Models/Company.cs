@@ -14,11 +14,14 @@ namespace SearchIt.Models
         [Required]
         public string CompName { get; set; }
         public string? CompWebsite { get; set; }
+        public string? CompEmail { get; set; }
         public string? StreetAddress { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
+        public string? Country { get; set; }
         public string? PostalCode { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? TypeOfCompany { get; set; }
         public DateTime? CreatedDate { get; set; }=DateTime.Now;
     }
 }

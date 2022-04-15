@@ -16,17 +16,23 @@ namespace SearchIt.Models
         [Required]
         public string PostName { get; set; }
         public string PostDescription { get; set; }
-        public string PostLocation { get; set; }
+
         public string MinExp { get; set; }
         public int TotalVacancies { get; set; }
-        public double PostSal { get; set; }
+        public double PostMinSal { get; set; }
+        public double PostMaxSal { get; set; }
         public int PostLike { get; set; }
         public int PostDisLike { get; set; }
-        public int? CompanyId { get;set; } 
+        public int? CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         [ValidateNever]
         public Company Company { get; set; }
-        
-
+        public string TypeOfJob { get; set; }
+        public string? StreetAddress { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? PostalCode { get; set; }
+        public string? PhoneNumber { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
     }
 }
