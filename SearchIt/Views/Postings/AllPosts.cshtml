@@ -1,0 +1,93 @@
+﻿@using SearchIt.Models.ViewModels
+
+@model IEnumerable<SearchIt.Models.ViewModels.AllPostingsVIewModel>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "All Posts";
+}
+
+<div class="container">
+    <div class="text-center mb-5">
+        <h3>All Vacancies Posted</h3>
+        <p class="lead">List of Posts Made</p>
+    </div>
+    <div class="col-12 text-end " style="padding-bottom:10px">
+        <a asp-controller="Postings" asp-action="Create" class="btn btn-primary">
+            <i class="fa fa-plus-circle"></i> &nbsp; Create New Product
+        </a>
+    </div>
+    @foreach (AllPostingsVIewModel Post in @Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-column flex-lg-row">
+                    <span class="avatar avatar-text rounded-3 me-4 bg-warning mb-2">@Post.Post.PostName.Substring(0,1)</span>
+                    <div class="row flex-fill">
+                        <div class="col-sm-5">
+                            <h4 class="h5">@Post.Post.PostName</h4>
+                            <span class="badge bg-secondary">@Post.Post.State</span> <span class="badge bg-success">@Post.Post.PostMinSal.ToString("c") - @Post.Post.PostMaxSal.ToString("c")</span>
+                            <span class="badge bg-info">@Post.Post.TypeOfJob</span>
+                        </div>
+                        @*<div class="col-sm-4 py-2">
+                            <span class="badge bg-secondary">GOLANG</span>
+                            <span class="badge bg-secondary">SENIOR</span>
+                            <span class="badge bg-secondary">ENGINEER</span>
+                            <span class="badge bg-secondary">BACKEND</span>
+                           </div>*@
+                            <div class="col-sm-3 text-lg-end">
+                                <table style="border-collapse: separate;border-spacing: 50px 0;">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <h6 class="font-weight-bold">Responses</h6>
+                                                <h1>@Post.Responses</h1>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <div style="z-index:4;position:relative">
+                                                <a asp-controller="Postings" asp-action="Edit" asp-route-id="@Post.Post.Id" class="btn btn-warning stretched-link">
+                                                    <i class="fa fa-pencil fa-5" aria-hidden="true"></i>Modify Post
+                                                </a>
+                                                </div>
+                                            </td>
+                                            <td style="text-align:center;">
+                                                
+                                                <a asp-controller="Postings" asp-action="ViewResponses" asp-route-id="@Post.Post.Id" class="btn btn-primary stretched-link">
+                                                    <i class="fa fa-list fa-5" aria-hidden="true"></i> <br />All Responses
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@* <div class="card mb-3">
+    <div class="card-body">
+    <div class="d-flex flex-column flex-lg-row">
+    <span class="avatar avatar-text cust-rounded-3 cust-me-4 bg-info cust-mb-2">PM</span>
+    <div class="row flex-fill">
+    <div class="col-sm-5">
+    <h4 class="h5">Director of Product Marketing</h4>
+    <span class="badge bg-secondary">WORLDWIDE</span> <span class="badge bg-success">$150K - $210K</span>
+    </div>
+    <div class="col-sm-4 py-2">
+    <span class="badge bg-secondary">PRODUCT MARKETING</span>
+    <span class="badge bg-secondary">MARKETING</span>
+    <span class="badge bg-secondary">EXECUTIVE</span>
+    <span class="badge bg-secondary">ECOMMERCE</span>
+    </div>
+    <div class="col-sm-3 text-lg-end">
+    <a href="#" class="btn btn-primary stretched-link">Apply</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>*@

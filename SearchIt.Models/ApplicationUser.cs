@@ -14,7 +14,7 @@ namespace SearchIt.Models
     public class ApplicationUser: IdentityUser
     {
         [Required]
-        public string? UserName { get; set; }
+        public string? FullName { get; set; }
         
         public DateTime? Dob { get; set; }
         public  string? Gender { get; set; }

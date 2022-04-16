@@ -2,22 +2,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SearchIt.DataAccess.Repository.IRepository;
 using SearchIt.Models;
+using SearchIt.Models.ViewModels;
 
 namespace SearchItApp.Controllers
 {
     public class PostingsController : Controller
     {
         private readonly IUnitOfWork _context;
-
-        public PostingsController(IUnitOfWork context)
+        private readonly UserManager<ApplicationUser> _UserManager;
+        public PostingsController(IUnitOfWork context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _UserManager = userManager;
+
         }
 
         // GET: Postings
@@ -51,6 +56,7 @@ namespace SearchItApp.Controllers
         // GET: Postings/Create
         public IActionResult Create()
         {
+            
             ViewData["CompanyId"] = _context.Company.GetAll().Select(u => new SelectListItem
             {
                 Text=u.CompName,
@@ -216,5 +222,56 @@ namespace SearchItApp.Controllers
 
             return View(post);
         }
+
+        public IActionResult AllPosts()
+        {
+            var UserId = _UserManager.GetUserId(User);
+            var UserInfo= _context.ApplicationUser.GetFirstOrDefault(x=>x.Id == UserId);
+            ApplicationUser CurUser = _context.ApplicationUser.GetFirstOrDefault(x => x.Id == UserInfo.Id);
+            var AllPosts = _context.Postings.GetAll(x => x.CompanyId == CurUser.CompanyId, includeProperties: "Company");
+            IEnumerable<AllPostingsVIewModel> AllCompPosts = from posts in AllPosts
+                                                             where posts.CompanyId == CurUser.CompanyId
+                                                             select(new AllPostingsVIewModel()
+                                                             {
+                                                                 Post = posts,
+                                                                 Responses = _context.Apply.GetAll(x => x.PostId == posts.Id).Count(),
+                                                             });
+
+            return View(AllCompPosts);
+
+
+        }
+
+        public IActionResult ViewResponses(int id)
+        {
+            
+            return View(id);
+        }
+
+        #region API Calls
+        [HttpGet]
+        public IActionResult GetResponses(int id)
+        {
+            IEnumerable<ApplyFor> AllResponses = _context.Apply.GetAll(u=>u.PostId == id,includeProperties: "Postings,User") ;
+
+            return Json(new { data=AllResponses });
+        }
+
+        #endregion 
+
+        [HttpDelete]
+        public IActionResult RejectApplicant(int id)
+        {
+            ApplyFor post = _context.Apply.GetFirstOrDefault(u => u.ApplyId == id);
+            post.ApplyStatus = "Rejected";
+            _context.Apply.Update(post);
+            _context.Save();
+            return Json(new { success = true, message = "Rejected Successfully" });
+        }
+
+
+
+
+
     }
 }

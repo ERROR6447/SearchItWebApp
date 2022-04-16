@@ -67,7 +67,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
-            public string UserName { get; set; }
+            
             
             public DateTime? Dob { get; set; }
             public string? Gender { get; set; }
@@ -84,7 +84,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
 
             public string? AreaOfInterest { get; set; }
             public string? PreferredLocation { get; set; }
-          
+            public string? FullName { get; set; }
 
         }
 
@@ -98,7 +98,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                UserName = user.UserName,
+                
                 Dob = user.Dob,
                 Gender = user.Gender,
                 Highest_Qualification = user.Highest_Qualification,
@@ -112,7 +112,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                 AreaOfInterest = user.AreaOfInterest,
                 PreferredLocation = user.PreferredLocation,
                 Country = user.Country,
-                
+                FullName = user.FullName,
                 
             };
         }
@@ -189,7 +189,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             user.AreaOfInterest = Input.AreaOfInterest;
             user.PreferredLocation = Input.PreferredLocation;
             user.Country = Input.Country;
-        
+            user.FullName = Input.FullName;
             await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             
