@@ -21,8 +21,8 @@ namespace SearchIt.Models
         public int TotalVacancies { get; set; }
         public double PostMinSal { get; set; }
         public double PostMaxSal { get; set; }
-        public int PostLike { get; set; }
-        public int PostDisLike { get; set; }
+        public int PostLike { get; set; } = 0;
+        public int PostDisLike { get; set; } = 0;
         public int? CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         [ValidateNever]

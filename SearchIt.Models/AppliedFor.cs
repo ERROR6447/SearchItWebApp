@@ -26,6 +26,6 @@ namespace SearchIt.Models
         [ValidateNever]
         public ApplicationUser User { get; set; }
         public DateTime? AppliedAt { get; set; } = DateTime.Now;
-        public string? ApplyStatus;
+        public string? ApplyStatus { get; set; }
     }
 }

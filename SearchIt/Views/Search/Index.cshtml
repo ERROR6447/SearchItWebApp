@@ -86,7 +86,7 @@
 									</ul>
 									<div class="time">
 										<a href="#"><span>@post.TypeOfJob</span></a>
-										<span class="pull-right">Posted 23 hours ago</span>
+										<span class="pull-right">@( post.CreatedAt==null ? "UnSpecified":DateTime.Now.Subtract((DateTime)post.CreatedAt)) Ago</span>
 									</div>																				
 								</div>
 							</div>

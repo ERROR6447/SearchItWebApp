@@ -34,9 +34,9 @@ namespace SearchItApp.Controllers
         //    return View(PostsList);
         //}
 
-
         public IActionResult Index(string? SearchState, string? SearchCity, string? search)
         {
+
             IEnumerable<Postings> temp = _context.Postings.GetAll(includeProperties: "Company");
 
             if (search != null && search !="")
@@ -54,19 +54,27 @@ namespace SearchItApp.Controllers
                 temp = from post in temp where post.City == SearchCity select post;
             }
 
+            List<String?> tempState = _context.Company.GetAll().Select(x => x.State).Distinct().ToList();
+            List<String?> tempCity = _context.Company.GetAll().Select(x=>x.City).Distinct().ToList();
+
             PostingsViewModel PostsList = new()
             {
                 posts=temp,
-                StateList = _context.Company.GetAll().Select(i => new SelectListItem
+                //StateList = _context.Company.GetAll().Select(i=> new SelectListItem
+                //{
+                //    Text = i.State,
+                //    Value = i.State,
+                //}).Distinct(),
+                StateList = tempState.Select(i=> new SelectListItem
                 {
-                    Text = i.State,
-                    Value = i.State
+                    Text= i,
+                    Value= i,
                 }),
-                CityList = _context.Company.GetAll().Select(i => new SelectListItem
+                CityList = tempCity.Select(i => new SelectListItem
                 {
-                    Text = i.City,
-                    Value = i.City
-                })
+                    Text = i,
+                    Value = i,
+                }).Distinct()
 
             };
             return View(PostsList);
