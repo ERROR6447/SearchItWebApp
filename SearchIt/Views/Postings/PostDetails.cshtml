@@ -1,4 +1,5 @@
 ﻿@model Postings
+
 @{
     ViewData["Title"] = "Post Details";
 }
@@ -39,11 +40,11 @@
                         </div>
                         <div class="job-tittle">
                             <a href="#">
-                                <h4>@Model.PostName</h4>
+                                <h4>@(Model!=null?Model.PostName:Model.PostName)</h4>
                             </a>
                             <ul>
                                 <li>@Model.Company.CompName</li>
-                                <li><i class="fa fa-map-marker"></i>@Model.Company.City, @Model.Company.State, @Model.Company</li>
+                                <li><i class="fa fa-map-marker"></i>@Model.Company.City, @Model.Company.State, @Model.Company.Country</li>
                                 <li><i class="fa fa-money" aria-hidden="true"></i>@Model.PostMinSal.ToString("c") - @Model.PostMaxSal.ToString("c")</li>
                             </ul>
                         </div>

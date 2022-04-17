@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Offer>
+@{
+    ViewData["Title"] = "All Offers";
+}
+
+<div class="container">
+    <div class="text-center mb-5">
+      <h3>Job Offers</h3>
+      <p class="lead">Job Offers Available</p>
+    </div>
+   
+    @foreach(Offer Offer in @Model)
+    {
+        <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex flex-column flex-lg-row">
+          <span class="avatar avatar-text rounded-3 me-4 bg-warning mb-2">@Offer.Apply.Postings.PostName.Substring(0,1)</span>
+          <div class="row flex-fill">
+            <div class="col-sm-5">
+              <h4>@Offer.Apply.Postings.PostName</h4>
+              <span class="badge bg-secondary">@Offer.Apply.Postings.State</span> <span class="badge bg-success">@Offer.Apply.Postings.PostMinSal.ToString("c") - @Offer.Apply.Postings.PostMaxSal.ToString("c")</span>
+               <span class="badge bg-info">@Offer.Apply.Postings.TypeOfJob</span>
+            </div>
+            @*<div class="col-sm-4 py-2">
+              <span class="badge bg-secondary">GOLANG</span>
+              <span class="badge bg-secondary">SENIOR</span>
+              <span class="badge bg-secondary">ENGINEER</span>
+              <span class="badge bg-secondary">BACKEND</span>
+            </div>*@
+            <div class="col-sm-3 text-lg-end">
+              @*<a href="#" class="btn btn-primary stretched-link">Apply</a>*@
+              <div class="row flex-fill">
+              <div class="col-sm-12">
+                 <h5>Offer Amount: @Offer.Amt</h5> 
+                  
+              </div> 
+              </div>
+
+            </div>
+
+          </div>
+              <a class="btn btn-primary" asp-route-id="@Offer.Id" asp-controller="Offers" asp-action="ViewOffer" style="height:fit-content"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;View Offer</a>
+        </div>
+      </div>
+    </div>
+    }
+    @* <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex flex-column flex-lg-row">
+          <span class="avatar avatar-text cust-rounded-3 cust-me-4 bg-info cust-mb-2">PM</span>
+          <div class="row flex-fill">
+            <div class="col-sm-5">
+              <h4 class="h5">Director of Product Marketing</h4>
+              <span class="badge bg-secondary">WORLDWIDE</span> <span class="badge bg-success">$150K - $210K</span>
+            </div>
+            <div class="col-sm-4 py-2">
+              <span class="badge bg-secondary">PRODUCT MARKETING</span>
+              <span class="badge bg-secondary">MARKETING</span>
+              <span class="badge bg-secondary">EXECUTIVE</span>
+              <span class="badge bg-secondary">ECOMMERCE</span>
+            </div>
+            <div class="col-sm-3 text-lg-end">
+              <a href="#" class="btn btn-primary stretched-link">Apply</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>*@
+  </div>

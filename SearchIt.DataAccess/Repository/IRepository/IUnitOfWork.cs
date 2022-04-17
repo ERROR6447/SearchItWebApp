@@ -13,6 +13,7 @@ namespace SearchIt.DataAccess.Repository.IRepository
         IPostingsRepository Postings { get; }
         ICompanyRepository Company { get; }
         IApplyForRepository Apply { get; }
+        IOfferRepository Offers { get; }
         void Save();
     }
 }

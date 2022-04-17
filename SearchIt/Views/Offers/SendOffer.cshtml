@@ -1,0 +1,102 @@
+﻿@model Offer
+
+@{
+    ViewData["Title"] = "Offer Job";
+}
+<div class="container">
+    <div class="main-body">
+        <form asp-action="SendOffer" asp-controller="Offers"  method="post" >
+            <input type="text" id="ApplyId" hidden asp-for="ApplyId" value="@Model.ApplyId" />
+            <input type="text" id="Id" hidden asp-for="Id" value="@Model.Id" />
+            <div class="row gutters-sm">
+                <div class="col-md-1 mb-3">
+                </div>
+                <div class="col-md-9">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Job Title</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    @Model.Apply.Postings.PostName
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Applicant Name</h6>
+                                </div>
+                                <div class="col-sm-3 text-secondary">
+                                    @Model.Apply.User.FullName
+                                </div>
+                                <h6 class="mb-0 col-sm-3">Email</h6>
+                                <div class="col-sm-3 text-secondary">
+                                    @Model.Apply.User.UserName
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Salary Per Annum</h6>
+                                </div>
+                                <div class="col-sm-5 text-secondary">
+                                    <input type="text" class="form-control" asp-for="Amt" />
+                                    <span asp-validation-for="Amt" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Additonal Description / Conditions </h6>
+                                </div>
+                                <div class="col-sm-5 text-secondary">
+                                    <textarea asp-for="OfferDescrip" class="form-control"></textarea>
+                                    <span asp-validation-for="OfferDescrip" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    
+                                   
+                                       <input type="submit" value="Send Offer" class="btn-primary btn " />
+                                    
+                                    
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function UpdateStatus(){
+            console.log($("ApplyId").text());
+            console.log($("ApplyId").val());
+             $.ajax({
+                type: "POST",
+                url: `/AppliedFor/SendOffer/`+$("#ApplyId").val(),
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        $('#tblData').DataTable().ajax.reload()
+                      //  dataTable.ajax.reload();
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+                }
+            });
+        }
+    </script>
+}

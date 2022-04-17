@@ -17,6 +17,7 @@ namespace SearchIt.DataAccess.Repository
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public ICompanyRepository Company { get; private set; }
         public IApplyForRepository Apply { get; private set; }
+        public IOfferRepository Offers { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db=db;
@@ -24,6 +25,7 @@ namespace SearchIt.DataAccess.Repository
             Postings= new PostingsRepository(_db);
             Company= new CompanyRepository(_db);
             Apply=new ApplyForRepository(_db);
+            Offers=new OfferRepository(_db);
 
         }
         public void Save()
