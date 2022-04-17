@@ -1,4 +1,5 @@
 ﻿#nullable disable
+#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using SearchIt.DataAccess.Repository.IRepository;
 using SearchIt.Models;
 using SearchIt.Models.ViewModels;
+using SearchIt.Utility;
 
 namespace SearchItApp.Controllers
 {
@@ -219,8 +221,12 @@ namespace SearchItApp.Controllers
         public IActionResult PostDetails(int id)
         {
             Postings post = _context.Postings.GetFirstOrDefault(i => i.Id == id, includeProperties: "Company");
+            if(post != null && post.Company != null)
+            {
+                return View(post);
+            }
 
-            return View(post);
+            return View(new Postings());
         }
 
         public IActionResult AllPosts()
@@ -252,12 +258,12 @@ namespace SearchItApp.Controllers
         [HttpGet]
         public IActionResult GetResponses(int id)
         {
-            IEnumerable<ApplyFor> AllResponses = _context.Apply.GetAll(u=>u.PostId == id,includeProperties: "Postings,User") ;
+            IEnumerable<ApplyFor> AllResponses = _context.Apply.GetAll(u=>u.PostId == id && u.ApplyStatus != Utility.App_Rejected,includeProperties: "Postings,User") ;
 
             return Json(new { data=AllResponses });
         }
 
-        #endregion 
+       
 
         [HttpDelete]
         public IActionResult RejectApplicant(int id)
@@ -272,6 +278,10 @@ namespace SearchItApp.Controllers
 
 
 
+
+
+
+        #endregion
 
     }
 }

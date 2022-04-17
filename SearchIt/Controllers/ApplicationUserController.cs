@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SearchIt.DataAccess.Repository.IRepository;
 using SearchIt.Models;
+using SearchIt.Models.ViewModels;
 
 namespace SearchItApp.Controllers
 {
@@ -21,12 +22,18 @@ namespace SearchItApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ViewProfile(string id)
+        public async Task<IActionResult> ViewProfile(int id)
         {
-            ApplicationUser user = _unitOfWork.ApplicationUser.GetFirstOrDefault(x => x.Id == id);
+            ApplyFor apply = _unitOfWork.Apply.GetFirstOrDefault(p=>p.ApplyId == id);
+            ApplicationUser user = _unitOfWork.ApplicationUser.GetFirstOrDefault(x => x.Id == apply.UserId);
             user.PhoneNumber =  await _userManager.GetPhoneNumberAsync(user);
             user.UserName = await _userManager.GetUserNameAsync(user);
-            return View(user);
+            ApplyUserViewModel UserModel = new()
+            {
+                User = user,
+                ApplyForId = id,
+            };
+            return View(UserModel);
         }
     }
 }

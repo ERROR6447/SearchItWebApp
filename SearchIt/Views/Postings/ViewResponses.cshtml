@@ -63,12 +63,12 @@ function loadDataTable() {
             , "width": "15%" },
 
             {
-                "data": { userId:"userId", applyId: "applyId" },
+                "data": { applyId: "applyId" },
                 
                 "render": function (data) {
                     return `
                         <div class="w-75 btn-group" role="group">
-                        <a href="/ApplicationUser/ViewProfile/${data.userId}"
+                        <a href="/ApplicationUser/ViewProfile/${data.applyId}"
                         class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> View Profile</a>
                         <a onClick=Delete('/Postings/RejectApplicant/${data.applyId}')
                         class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Reject</a>
