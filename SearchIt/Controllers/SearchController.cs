@@ -37,7 +37,7 @@ namespace SearchItApp.Controllers
         public IActionResult Index(string? SearchState, string? SearchCity, string? search)
         {
 
-            IEnumerable<Postings> temp = _context.Postings.GetAll(includeProperties: "Company");
+            IEnumerable<Postings> temp = _context.Postings.GetAll(u=>u.TotalVacancies > 0,includeProperties: "Company");
 
             if (search != null && search !="")
             {

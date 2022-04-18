@@ -20,6 +20,7 @@ namespace SearchItApp.Controllers
     {
         private readonly IUnitOfWork _context;
         private readonly UserManager<ApplicationUser> _UserManager;
+
         public PostingsController(IUnitOfWork context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -59,11 +60,11 @@ namespace SearchItApp.Controllers
         public IActionResult Create()
         {
             
-            ViewData["CompanyId"] = _context.Company.GetAll().Select(u => new SelectListItem
-            {
-                Text=u.CompName,
-                Value=u.Id.ToString(),
-            });
+            
+            string userid = _UserManager.GetUserId(User);
+            ViewData["Company"] = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == userid).Company;
+            //ViewData["CompanyName"] = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == userid).Company.CompName;
+
             return View();
         }
 
@@ -74,18 +75,16 @@ namespace SearchItApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt")] Postings postings)
         {
+            string user = _UserManager.GetUserId(User);
+            postings.CompanyId = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == user).CompanyId;
             if (ModelState.IsValid)
             {
                 _context.Postings.Add(postings);
                 _context.Save();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AllPosts");
             }
-            ViewData["CompanyId"] = _context.Company.GetAll().Select(u => new SelectListItem
-            {
-                Text = u.CompName,
-                Value = u.Id.ToString(),
-            });
-            return View(postings);
+           
+            return NotFound();
         }
 
         // GET: Postings/Edit/5
@@ -125,6 +124,7 @@ namespace SearchItApp.Controllers
             {
                 try
                 {
+                    postings.CompanyId = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == _UserManager.GetUserId(User)).CompanyId;
                     _context.Postings.Update(postings);
                     _context.Save();
                 }
@@ -139,13 +139,9 @@ namespace SearchItApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AllPosts");
             }
-            ViewData["CompanyId"] = _context.Company.GetAll().Select(u => new SelectListItem
-            {
-                Text = u.CompName,
-                Value = u.Id.ToString(),
-            });
+            
             return View(postings);
         }
 
@@ -177,7 +173,7 @@ namespace SearchItApp.Controllers
             //var postings = await _context.Postings.FindAsync(id);
             _context.Postings.Remove(postings);
              _context.Save();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AllPosts");
         }
 
         private bool PostingsExists(int id)
@@ -220,13 +216,22 @@ namespace SearchItApp.Controllers
 
         public IActionResult PostDetails(int id)
         {
-            Postings post = _context.Postings.GetFirstOrDefault(i => i.Id == id, includeProperties: "Company");
-            if(post != null && post.Company != null)
+            string UserId = _UserManager.GetUserId(User);
+            Postings temp = _context.Postings.GetFirstOrDefault(i => i.Id == id, includeProperties: "Company");
+            PostDetailsViewModel post = new()
+            {
+                Postings = temp,
+                IsApplied = _context.Apply.GetAll(u => u.UserId == UserId && u.PostId == temp.Id) != null ? true : false,
+            };
+
+        
+
+            if(post.Postings != null && post.Postings.Company != null)
             {
                 return View(post);
             }
 
-            return View(new Postings());
+            return NotFound();
         }
 
         public IActionResult AllPosts()

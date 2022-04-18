@@ -1,51 +1,30 @@
-﻿
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Configuration;
-
+﻿// using SendGrid's C# Library
+// https://github.com/sendgrid/sendgrid-csharp
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace BulkyBook.Utility
+namespace Example
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender
     {
-        public string SendGridSecret { get; set; }
-
-        public EmailSender(IConfiguration _config)
+        private static void Main()
         {
-            SendGridSecret = _config.GetValue<string>("SendGrid:SecretKey");
+            Execute().Wait();
         }
 
-        public Task SendEmailAsync(string email, string subject, string htmlMessage)
+        static async Task Execute()
         {
-            //var emailToSend = new MimeMessage();
-            //emailToSend.From.Add(MailboxAddress.Parse("hello@dotnetmastery.com"));
-            //emailToSend.To.Add(MailboxAddress.Parse(email));
-            //emailToSend.Subject = subject;
-            //emailToSend.Body = new TextPart(MimeKit.Text.TextFormat.Html){ Text = htmlMessage};
-
-            ////send email
-            //using (var emailClient = new SmtpClient())
-            //{
-            //    emailClient.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-            //    emailClient.Authenticate("dotnetmastery@gmail.com", "DotNet123$");
-            //    emailClient.Send(emailToSend);
-            //    emailClient.Disconnect(true);
-            //}
-
-            //return Task.CompletedTask;
-
-            var client = new SendGridClient(SendGridSecret);
-            var from = new EmailAddress("hello@dotnetmastery.com", "Bulky Book");
-            var to = new EmailAddress(email);
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
-            return client.SendEmailAsync(msg);
-
+            var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("test@example.com", "Example User");
+            var subject = "Sending with SendGrid is Fun";
+            var to = new EmailAddress("test@example.com", "Example User");
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }

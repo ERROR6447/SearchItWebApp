@@ -5,11 +5,9 @@ using SearchIt.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using SearchIt.Models;
+
 using Microsoft.AspNetCore.Identity.UI.Services;
-using BulkyBook.Utility;
-
-
-
+using Example;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +23,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddSingleton<IEmailSender, EmailSender>();
+//builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.ConfigureApplicationCookie(options =>  //solves the error of login required redirection when using the app and 
 {                                                      //want to use functionality that requires user to be logged in 
     options.LoginPath = $"/Identity/Account/Login";

@@ -132,7 +132,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync(IFormFile? file)
         {
             var user = await _userManager.GetUserAsync(User);
-
+            string uploads;
 
             if (user == null)
             {
@@ -149,7 +149,11 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                 string rootpath = _hostEnv.WebRootPath;
 
                 string fileName = Guid.NewGuid().ToString();
-                var uploads = Path.Combine(rootpath, @"Images\Users");
+                
+                    uploads = Path.Combine(rootpath, @"Images\Users");
+
+               
+                
                 var extension = Path.GetExtension(file.FileName);
                 if (user.ImageUrl != null)
                 {
@@ -163,7 +167,13 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                 {
                     file.CopyTo(fileStream);
                 }
-                user.ImageUrl = @"\Images\Users\" + fileName + extension;
+               
+                    user.ImageUrl = @"\Images\Users\" + fileName + extension;
+
+               
+                    
+
+                
 
             }
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
