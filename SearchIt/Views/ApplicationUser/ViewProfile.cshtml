@@ -1,4 +1,5 @@
-﻿@model SearchIt.Models.ViewModels.ApplyUserViewModel
+﻿@using SearchIt.Utility
+@model SearchIt.Models.ViewModels.ApplyUserViewModel
 
 @{
     ViewData["Title"] = "User Profile";
@@ -152,6 +153,15 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <a class="btn btn-info " target="__blank">View CV</a>
+                                @if(Model.ApplyStatus == Utility.App_JobOffer || Model.ApplyStatus == Utility.App_JobAccept)
+                                {
+                                    
+                                }
+                                else
+                                {
+                                <a class="btn btn-warning" onclick='SortListed("@Model.ApplyForId")' >Sort List</a>
+                                    
+                                }
                                 <a class="btn btn-secondary" asp-controller="Offers" asp-action="SendOffer" asp-route-id="@Model.ApplyForId">Send Offer</a>
                             </div>
                         </div>
@@ -185,6 +195,22 @@
 
 
     });
+
+
+    function SortListed(id){
+        $.ajax({
+            url:"/AppliedFor/SortListed/"+id,
+            type:"Post",
+            success: function(data){
+                if(data.success){
+                    toastr.success(data.message);
+                }
+                else{
+                    toastr.error(data.message);
+                }
+            }
+        });
+    };
 
 </script>
     }

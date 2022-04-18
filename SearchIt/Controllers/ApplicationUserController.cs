@@ -32,6 +32,7 @@ namespace SearchItApp.Controllers
             {
                 User = user,
                 ApplyForId = id,
+                ApplyStatus = apply.ApplyStatus,
             };
             return View(UserModel);
         }

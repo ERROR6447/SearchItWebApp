@@ -101,6 +101,21 @@ namespace SearchItApp.Models
             return Json(new { success = "true", message = "Job Accepted" });
         }
 
+        [HttpPost]
+        public IActionResult SortListed(int id)
+        {
+            ApplyFor post = _context.Apply.GetFirstOrDefault(u=>u.ApplyId==id);
+            if(post != null)
+            {
+                
+                post.ApplyStatus = Utility.App_SortListed;
+                _context.Apply.Update(post);
+                _context.Save();
+                return Json(new { success = "true", message = "SortListed" });
+
+            }
+            return Json(new { succes = "false", message = "Cannot Sort List Candidate" });
+        }
 
 
 

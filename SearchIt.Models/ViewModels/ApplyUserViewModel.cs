@@ -10,5 +10,6 @@ namespace SearchIt.Models.ViewModels
     {
         public ApplicationUser User { get; set; }
         public int ApplyForId { get; set; }
+        public string ApplyStatus { get; set; }
     }
 }

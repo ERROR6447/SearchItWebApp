@@ -221,7 +221,7 @@ namespace SearchItApp.Controllers
             PostDetailsViewModel post = new()
             {
                 Postings = temp,
-                IsApplied = _context.Apply.GetAll(u => u.UserId == UserId && u.PostId == temp.Id) != null ? true : false,
+                IsApplied = _context.Apply.GetFirstOrDefault(u => u.UserId == UserId && u.PostId == temp.Id) != null ? true : false,
             };
 
         
