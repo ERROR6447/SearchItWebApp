@@ -30,6 +30,11 @@ namespace SearchItApp.Controllers
             return View();
         }
 
+        public IActionResult AllPosts()
+        {
+            return View();
+        }
+
         #region API Calls
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
@@ -110,6 +115,23 @@ namespace SearchItApp.Controllers
                 return Json(new { success = "true", message = "Copmany Locked" });
             }
 
+        }
+
+
+        [HttpPost]
+        public IActionResult DeletePost([FromBody] int Id)
+        {
+            var post = _context.Postings.GetFirstOrDefault(u => u.Id == Id);
+            _context.Postings.Remove(post);
+            _context.Save();
+            return Json(new { success="true",message="Post Deleted" });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllPosts()
+        {
+            List<Postings> AllPosts= _context.Postings.GetAll(includeProperties:"Company").ToList();
+            return Json(new { data = AllPosts });
         }
 
         #endregion

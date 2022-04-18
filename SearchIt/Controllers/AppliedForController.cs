@@ -74,7 +74,7 @@ namespace SearchItApp.Models
         public IActionResult SendOffer(int id)
         {
             var post = _context.Apply.GetFirstOrDefault(u => u.ApplyId == id);
-            if(post.ApplyStatus == Utility.App_SortListed || post.ApplyStatus == Utility.App_Viewed)
+            if(post.ApplyStatus == Utility.App_SortListed || post.ApplyStatus == Utility.App_Viewed || post.ApplyStatus == null)
             {
                 post.ApplyStatus = Utility.App_JobOffer;
                 _context.Apply.Update(post);
@@ -90,8 +90,11 @@ namespace SearchItApp.Models
             var post=_context.Apply.GetFirstOrDefault(u=>u.ApplyId == id);
             if(post != null)
             {
+                var Posting = post.Postings;
+                Posting.TotalVacancies -= 1;
                 post.ApplyStatus = Utility.App_JobAccept;
                 _context.Apply.Update(post);
+                _context.Postings.Update(Posting);
                 _context.Save();
             }
             

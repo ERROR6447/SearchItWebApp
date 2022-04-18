@@ -75,6 +75,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             public string? PhoneNumber { get; set; }
             public string? TypeOfCompany { get; set; }
 
+            public string? ImageUrl { get; set; }
 
         }
 
@@ -119,7 +120,7 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync(IFormFile? file)
         {
             var user = await _userManager.GetUserAsync(User);
-
+            string uploads;
 
             if (user == null)
             {
@@ -169,7 +170,39 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load Company with ID '{user.CompanyId}'.");
 
             }
-                 company.CompName = company.CompName;
+            if (file != null)
+            {
+                string rootpath = _hostEnv.WebRootPath;
+
+                string fileName = Guid.NewGuid().ToString();
+
+                uploads = Path.Combine(rootpath, @"Images\Companies");
+
+
+
+                var extension = Path.GetExtension(file.FileName);
+                if (user.ImageUrl != null)
+                {
+                    var oldImagePath = Path.Combine(rootpath, user.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                user.ImageUrl = @"\Images\Companies\" + fileName + extension;
+
+
+
+
+
+
+            }
+            company.CompName = company.CompName;
                  company.CompWebsite = company.CompWebsite;
                  company.CompEmail = company.CompEmail;
                  company.StreetAddress = company.StreetAddress;
