@@ -1,30 +1,48 @@
-﻿// using SendGrid's C# Library
-// https://github.com/sendgrid/sendgrid-csharp
+﻿
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Example
+namespace SearchIt.Utility
 {
-    public class EmailSender
+    public class EmailSender : IEmailSender
     {
-        private static void Main()
+        public string SendGridSecret { get; set; }
+    
+     
+        public EmailSender(IConfiguration config)
         {
-            Execute().Wait();
+            
+            SendGridSecret = config.GetValue<string>("SendGrid:SecretKey");
         }
 
-        static async Task Execute()
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("test@example.com", "Example User");
-            var subject = "Sending with SendGrid is Fun";
-            var to = new EmailAddress("test@example.com", "Example User");
-            var plainTextContent = "and easy to do anywhere, even with C#";
-            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+          
+            var client = new SendGridClient(SendGridSecret);
+            var from = new EmailAddress("pokemonwh7@gmail.com", "Pokemon");
+            var to = new EmailAddress(email);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
+            msg.SetClickTracking(false, false);
+
             var response = await client.SendEmailAsync(msg);
+            if (response.StatusCode != HttpStatusCode.OK
+                && response.StatusCode != HttpStatusCode.Accepted)
+            {
+                var errorMessage = response.Body.ReadAsStringAsync().Result;
+                throw new Exception($"Failed to send mail to {to}, status code {response.StatusCode}, {errorMessage}");
+            }
+
+
         }
     }
 }
