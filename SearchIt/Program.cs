@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using SearchIt.Models;
 
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Example;
+
+using SearchIt.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +18,13 @@ builder.Services.AddControllersWithViews(); // to store
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConn")
     ));
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 //builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.ConfigureApplicationCookie(options =>  //solves the error of login required redirection when using the app and 
 {                                                      //want to use functionality that requires user to be logged in 
