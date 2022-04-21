@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SearchIt.DataAccess.Data;
 
@@ -11,9 +12,10 @@ using SearchIt.DataAccess.Data;
 namespace SearchIt.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220421084014_AddChangestoAppUser")]
+    partial class AddChangestoAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -436,9 +438,6 @@ namespace SearchIt.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReqSkills")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")

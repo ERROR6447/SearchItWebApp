@@ -76,11 +76,8 @@
                 <label asp-for="Input.Experience" class="form-label"></label>
                 <span asp-validation-for="Input.Experience" class="text-danger"></span>
             </div>
-            <div class="form-floating col-md-6">
-                <input asp-for="Input.AreaOfInterest"  class="form-control" />
-                <label asp-for="Input.AreaOfInterest" class="form-label"></label>
-                <span asp-validation-for="Input.AreaOfInterest" class="text-danger"></span>
-            </div>
+            
+
             <div class="form-floating col-md-6">
                 <input asp-for="Input.LastPosition"  class="form-control" />
                 <label asp-for="Input.LastPosition" class="form-label"></label>
@@ -91,8 +88,32 @@
                 <label asp-for="Input.PreferredLocation" class="form-label"></label>
                 <span asp-validation-for="Input.PreferredLocation" class="text-danger"></span>
             </div>
-            <div class="form-floating col-md-6">
+            
+
+            <div class=" col-md-6">
+                @*<input asp-for="Input.AreaOfInterest"  class="form-control" />
+                <label asp-for="Input.AreaOfInterest" class="form-label"></label>
+                <span asp-validation-for="Input.AreaOfInterest" class="text-danger"></span>*@
+            <label asp-for="Input.AreasOfInterests" class="form-label" ></label>
+                
+                <select asp-for="Input.AreasOfInterests" asp-items="@((IEnumerable<SelectListItem>)ViewData["ListOfKeySkills"])" id="AreasOfInterests" class="form-select" multiple>
+			</select>
+				<span asp-validation-for="Input.AreasOfInterests" class="text-danger" ></span>
+
+            </div>
+            <div class="  col-md-6">
+               
+                <label asp-for="Input.KeySkills" class="form-label"></label>
+                
+			<select asp-for="Input.KeySkills" asp-items="@((IEnumerable<SelectListItem>)ViewData["ListOfKeySkills"])" id="ListOfSkills" class="form-select" multiple>
+			</select>
+				<span asp-validation-for="Input.KeySkills" class="text-danger" ></span>
+			
+            </div>
+            <div class="col-md-6">
                <input type="file" id="uploadBox" name="file" class="form-control" />
+                
+
             </div>
             
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
@@ -105,4 +126,12 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function(){
+            $("#ListOfSkills").chosen(); 
+            $("#AreasOfInterests").chosen();
+        })
+    
+    </script>
+
 }

@@ -20,6 +20,14 @@
                             <a asp-controller="Postings" asp-action="PostDetails" asp-route-id="@Post.PostId" style="text-decoration:none;color:black;"><h5 class="h5">@Post.Postings.PostName</h5> </a>
                             <span class="badge bg-secondary">@Post.Postings.State</span> <span class="badge bg-success">@Post.Postings.PostMinSal.ToString("c") - @Post.Postings.PostMaxSal.ToString("c")</span>
                             <span class="badge bg-info">@Post.Postings.TypeOfJob</span> <span class="badge bg-primary">@Post.Postings.Company.CompName</span>
+                            @if (Post.Postings.ReqSkills != null)
+                            {
+                                @foreach (string skill in Post.Postings.ReqSkills.Split(',').ToList())
+                                {
+                                    <span class="badge bg-info">@skill</span>
+
+                                }
+                            }
                         </div>
 
                         <div class="col-sm-2 text-lg-end">

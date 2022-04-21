@@ -58,29 +58,44 @@
                         <div class="small-section-tittle">
                             <h4>Job Description</h4>
                         </div>
-                        <p>@Model.Postings.PostDescription</p>
+                        <p>@Html.Raw(Model.Postings.PostDescription)</p>
                     </div>
-                    @*  <div class="post-details2  mb-50">
+                    <div class="mb-50">
                         <!-- Small Section Tittle -->
                         <div class="small-section-tittle">
-                        <h4>Required Knowledge, Skills, and Abilities</h4>
+                            <h5>Vacancies: @Model.Postings.TotalVacancies</h5>
+                        </div>
+                    </div>
+                     <div class="post-details2  mb-50">
+                        <!-- Small Section Tittle -->
+                        <div class="small-section-tittle">
+                        <h4>Required Skills, and Abilities</h4>
                         </div>
                         <ul>
-                        <li>System Software Development</li>
+                            @if(@Model.Postings.ReqSkills != null)
+                            {
+                                @foreach(string skill in @Model.Postings.ReqSkills.Split(',').ToList())
+                            {
+                                <li>@skill</li>
+                            }
+
+                            }
+                            
+                            @*<li>System Software Development</li>
                         <li>Mobile Applicationin iOS/Android/Tizen or other platform</li>
                         <li>Research and code , libraries, APIs and frameworks</li>
                         <li>Strong knowledge on software development life cycle</li>
-                        <li>Strong problem solving and debugging skills</li>
+                        <li>Strong problem solving and debugging skills</li>*@
                         </ul>
-                        </div>*@
+                        </div>
                     <div class="post-details2  mb-50">
                         <!-- Small Section Tittle -->
-                        @*<div class="small-section-tittle">
+                       <div class="small-section-tittle">
                             <h4>Education + Experience</h4>
                             </div>
-                        *@                        <ul>
+                                                <ul>
                             <li>@Model.Postings.MinExp years of Working Experience in the field </li>
-                            <li>Vacancies: @Model.Postings.TotalVacancies</li>
+                            
                             @* <li>Direct response email experience</li>
                                 <li>Ecommerce website design experience</li>
                                 <li>Familiarity with mobile and web apps preferred</li>
@@ -110,6 +125,10 @@
                         {
                             <div class="btn btn-outline-success" >
                             <a style="color:black;text-decoration:none">Already Applied</a>
+                            
+                            </div>
+                            <div class="btn btn-info">
+                            <a asp-controller="Companies" asp-action="Details" asp-route-id="@Model.Postings.CompanyId" asp-route-retpostid="@Model.Postings.Id"  style="color:white;text-decoration:none">View Company</a>
                             </div>
                         }
                         else

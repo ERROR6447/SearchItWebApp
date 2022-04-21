@@ -34,8 +34,15 @@ namespace SearchIt.Models
         public string? State { get; set; }
         public string? PostalCode { get; set; }
         public string? PhoneNumber { get; set; }
-       
         
+        public string? ReqSkills { get; set; }
+        [NotMapped]
+        [ValidateNever]
+        public List<SelectListItem> ReqSkillsList { get; set; }
+        [NotMapped]
+        [ValidateNever]
+
+        public List<string> SelectedReqSkillList { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
         
     }

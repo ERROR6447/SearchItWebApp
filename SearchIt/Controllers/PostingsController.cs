@@ -44,7 +44,7 @@ namespace SearchItApp.Controllers
                 return NotFound();
             }
             var postings = _context.Postings.GetFirstOrDefault(u=>u.Id == id,includeProperties:"Company");
-
+            
             //var postings = await _context.Postings
             //    .Include(p => p.Company)
            //     .FirstOrDefaultAsync(m => m.Id == id);
@@ -63,9 +63,17 @@ namespace SearchItApp.Controllers
             
             string userid = _UserManager.GetUserId(User);
             ViewData["Company"] = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == userid).Company;
+            Postings post = new Postings()
+            {
+                ReqSkillsList = _context.KeySkills.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Name,
+                }).ToList(),
+            };
             //ViewData["CompanyName"] = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == userid).Company.CompName;
             
-            return View();
+            return View(post);
         }
 
         // POST: Postings/Create
@@ -73,10 +81,11 @@ namespace SearchItApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt,ListKeySkills,ListCategories")] Postings postings)
+        public async Task<IActionResult> Create([Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt,ListKeySkills,ListCategories,SelectedReqSkillList")] Postings postings)
         {
             string user = _UserManager.GetUserId(User);
             postings.CompanyId = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == user).CompanyId;
+            postings.ReqSkills = String.Join(',', postings.SelectedReqSkillList);
             if (ModelState.IsValid)
             {
                 _context.Postings.Add(postings);
@@ -105,6 +114,12 @@ namespace SearchItApp.Controllers
                 Text = u.CompName,
                 Value = u.Id.ToString(),
             });
+            postings.ReqSkillsList = _context.KeySkills.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.Name,
+                Text = i.Name,
+            }).ToList();
+            postings.SelectedReqSkillList = postings.ReqSkills != null?postings.ReqSkills.Split(',').ToList():new List<string>();
             return View(postings);
         }
 
@@ -113,7 +128,7 @@ namespace SearchItApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt,ListKeySkills,ListCategories")] Postings postings)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt,ListKeySkills,ListCategories,SelectedReqSkillList")] Postings postings)
         {
             if (id != postings.Id)
             {
@@ -125,6 +140,7 @@ namespace SearchItApp.Controllers
                 try
                 {
                     postings.CompanyId = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == _UserManager.GetUserId(User)).CompanyId;
+                    postings.ReqSkills = string.Join(',', postings.SelectedReqSkillList);
                     _context.Postings.Update(postings);
                     _context.Save();
                 }
@@ -218,6 +234,7 @@ namespace SearchItApp.Controllers
         {
             string UserId = _UserManager.GetUserId(User);
             Postings temp = _context.Postings.GetFirstOrDefault(i => i.Id == id, includeProperties: "Company");
+            temp.SelectedReqSkillList = temp.ReqSkills.Split(",").ToList();
             PostDetailsViewModel post = new()
             {
                 Postings = temp,
@@ -239,7 +256,14 @@ namespace SearchItApp.Controllers
             var UserId = _UserManager.GetUserId(User);
             var UserInfo= _context.ApplicationUser.GetFirstOrDefault(x=>x.Id == UserId);
             ApplicationUser CurUser = _context.ApplicationUser.GetFirstOrDefault(x => x.Id == UserInfo.Id);
-            var AllPosts = _context.Postings.GetAll(x => x.CompanyId == CurUser.CompanyId, includeProperties: "Company");
+            var AllPosts = _context.Postings.GetAll(x => x.CompanyId == CurUser.CompanyId, includeProperties: "Company").ToList();
+            for(int i=0; i < AllPosts.Count; i++)
+            {
+                if (AllPosts[i].ReqSkills != null)
+                {
+                    AllPosts[i].SelectedReqSkillList = AllPosts[i].ReqSkills.Split(',').ToList();
+                }
+            }
             IEnumerable<AllPostingsVIewModel> AllCompPosts = from posts in AllPosts
                                                              where posts.CompanyId == CurUser.CompanyId
                                                              select(new AllPostingsVIewModel()
