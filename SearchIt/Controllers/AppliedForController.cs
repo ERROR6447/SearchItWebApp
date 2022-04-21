@@ -87,7 +87,7 @@ namespace SearchItApp.Models
 
        public IActionResult AcceptOffer(int id)
         {
-            var post=_context.Apply.GetFirstOrDefault(u=>u.ApplyId == id);
+            var post=_context.Apply.GetFirstOrDefault(u=>u.ApplyId == id,includeProperties:"Postings");
             if(post != null)
             {
                 var Posting = post.Postings;

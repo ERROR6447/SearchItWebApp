@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,6 +34,9 @@ namespace SearchIt.Models
         public string? State { get; set; }
         public string? PostalCode { get; set; }
         public string? PhoneNumber { get; set; }
+       
+        
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        
     }
 }

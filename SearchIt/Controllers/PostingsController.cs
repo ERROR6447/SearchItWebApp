@@ -64,7 +64,7 @@ namespace SearchItApp.Controllers
             string userid = _UserManager.GetUserId(User);
             ViewData["Company"] = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == userid).Company;
             //ViewData["CompanyName"] = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == userid).Company.CompName;
-
+            
             return View();
         }
 
@@ -73,7 +73,7 @@ namespace SearchItApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt")] Postings postings)
+        public async Task<IActionResult> Create([Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt,ListKeySkills,ListCategories")] Postings postings)
         {
             string user = _UserManager.GetUserId(User);
             postings.CompanyId = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == user).CompanyId;
@@ -113,7 +113,7 @@ namespace SearchItApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt")] Postings postings)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostName,PostDescription,MinExp,TotalVacancies,PostMinSal,PostMaxSal,PostLike,PostDisLike,CompanyId,TypeOfJob,StreetAddress,City,State,PostalCode,PhoneNumber,CreatedAt,ListKeySkills,ListCategories")] Postings postings)
         {
             if (id != postings.Id)
             {

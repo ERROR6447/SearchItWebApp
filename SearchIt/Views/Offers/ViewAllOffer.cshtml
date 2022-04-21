@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Offer>
+﻿@using SearchIt.Utility
+@model IEnumerable<Offer>
 @{
     ViewData["Title"] = "All Offers";
 }
@@ -39,7 +40,16 @@
             </div>
 
           </div>
-              <a class="btn btn-primary" asp-route-id="@Offer.Id" asp-controller="Offers" asp-action="ViewOffer" style="height:fit-content"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;View Offer</a>
+                    @if(Offer.Apply.ApplyStatus == Utility.App_JobAccept)
+                    {
+                        <a class="btn btn-success"  style="height:fit-content"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Offer Accepted</a>
+
+                    }
+                    else
+                    {
+                    <a class="btn btn-primary" asp-route-id="@Offer.Id" asp-controller="Offers" asp-action="ViewOffer" style="height:fit-content">&nbsp;View Offer</a>
+                        
+                    }
         </div>
       </div>
     </div>

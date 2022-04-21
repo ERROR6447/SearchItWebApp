@@ -14,6 +14,8 @@ namespace SearchIt.DataAccess.Repository.IRepository
         ICompanyRepository Company { get; }
         IApplyForRepository Apply { get; }
         IOfferRepository Offers { get; }
+        ICategoryRepository Category { get; }
+        IKeySkillsRepository KeySkills { get; }
         void Save();
     }
 }

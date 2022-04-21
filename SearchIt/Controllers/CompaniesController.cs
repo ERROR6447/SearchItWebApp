@@ -28,7 +28,7 @@ namespace SearchItApp.Controllers
         }
 
         // GET: Companies/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id,int retpostid)
         {
             if (id == null)
             {
@@ -37,6 +37,7 @@ namespace SearchItApp.Controllers
 
             var Companies = await _context.Companies
                 .FirstOrDefaultAsync(m => m.Id == id);
+            Companies.retpostid = retpostid;
             if (Companies == null)
             {
                 return NotFound();
