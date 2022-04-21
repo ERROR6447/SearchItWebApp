@@ -280,9 +280,57 @@ namespace SearchItApp.Controllers
             return Json(new { success = true, message = "Rejected Successfully" });
         }
 
+        [HttpPost]
+        public IActionResult BookMarkPost(int id)
+        {
+            string UserId = _UserManager.GetUserId(User);
+            BookMark exists= _context.BookMarks.GetFirstOrDefault(u=>u.UserId == UserId && u.PostId == id);
+            if(id != 0 && exists == null)
+            {
+                BookMark Post = new()
+                {
+                    UserId = UserId,
+                    PostId = id
+                };
+                _context.BookMarks.Add(Post);
+                _context.Save();
 
+                return Json(new { success = "true", message = "BookMarked Post" });
+            }
+            return Json(new { success = "false", message = "Cannot BookMark Post" });
+        }
 
+        [HttpDelete]
+        public IActionResult RemoveBookMark(int id)
+        {
+            string UserId = _UserManager.GetUserId(User);
+            BookMark exists = _context.BookMarks.GetFirstOrDefault(u => u.UserId == UserId && u.PostId == id);
+            if (id != 0 && exists != null)
+            {
+                
+                _context.BookMarks.Remove(exists);
+                _context.Save();
 
+                return Json(new { success = "true", message = "BookMark Removed From Post" });
+            }
+            return Json(new { success = "false", message = "Cannot Remove BookMark Post" });
+        }
+
+        [HttpDelete]
+        public IActionResult RemoveBookMarkById(int id)
+        {
+            string UserId = _UserManager.GetUserId(User);
+            BookMark exists = _context.BookMarks.GetFirstOrDefault(u => u.Id == id);
+            if (id != 0 && exists != null)
+            {
+
+                _context.BookMarks.Remove(exists);
+                _context.Save();
+
+                return Json(new { success = "true", message = "BookMark Removed From Post" });
+            }
+            return Json(new { success = "false", message = "Cannot Remove BookMark Post" });
+        }
 
 
 

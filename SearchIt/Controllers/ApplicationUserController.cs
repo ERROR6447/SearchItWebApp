@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using SearchIt.DataAccess.Repository.IRepository;
 using SearchIt.Models;
 using SearchIt.Models.ViewModels;
+using System.Collections.Generic;
 
 namespace SearchItApp.Controllers
 {
     public class ApplicationUserController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ApplicationUserController(IUnitOfWork unitOfWork,UserManager<ApplicationUser> userManager)
         {
-            _unitOfWork = unitOfWork;
+            _context = unitOfWork;
             _userManager = userManager;
 
         }
@@ -24,8 +25,8 @@ namespace SearchItApp.Controllers
 
         public async Task<IActionResult> ViewProfile(int id)
         {
-            ApplyFor apply = _unitOfWork.Apply.GetFirstOrDefault(p=>p.ApplyId == id);
-            ApplicationUser user = _unitOfWork.ApplicationUser.GetFirstOrDefault(x => x.Id == apply.UserId);
+            ApplyFor apply = _context.Apply.GetFirstOrDefault(p=>p.ApplyId == id);
+            ApplicationUser user = _context.ApplicationUser.GetFirstOrDefault(x => x.Id == apply.UserId);
             user.PhoneNumber =  await _userManager.GetPhoneNumberAsync(user);
             user.UserName = await _userManager.GetUserNameAsync(user);
             ApplyUserViewModel UserModel = new()
@@ -35,6 +36,18 @@ namespace SearchItApp.Controllers
                 ApplyStatus = apply.ApplyStatus,
             };
             return View(UserModel);
+        }
+
+        public IActionResult BookMarks()
+        {
+            string UserId = _userManager.GetUserId(User);
+            List< BookMark > AllBookMarkPosts = _context.BookMarks.GetAll(u => u.UserId == UserId,includeProperties:"Postings").ToList();
+            for(int i = 0; i < AllBookMarkPosts.Count; i++)
+            {
+                AllBookMarkPosts[i].Postings.Company = _context.Company.GetFirstOrDefault(u=>u.Id == AllBookMarkPosts[i].Postings.CompanyId);
+            }
+
+            return View(AllBookMarkPosts);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace SearchIt.DataAccess.Repository.IRepository
         IOfferRepository Offers { get; }
         ICategoryRepository Category { get; }
         IKeySkillsRepository KeySkills { get; }
+        IBookMarkRepository BookMarks { get; }
         void Save();
     }
 }
