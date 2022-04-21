@@ -18,8 +18,15 @@ namespace SearchItApp.Models
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier); // fetch user Id by claim.Id
             string UserId = claim.Value;
             
-            IEnumerable<ApplyFor> AllApplications = _context.Apply.GetAll(u => u.User.Id == UserId, includeProperties: "Postings");
-            AllApplications = from post in AllApplications orderby post.AppliedAt descending select post;
+            List<ApplyFor> AllApplications = _context.Apply.GetAll(u => u.User.Id == UserId, includeProperties: "Postings").ToList();
+            //for(int i = 0; i < AllApplications.Count; i++)
+            //{
+            //    if (AllApplications[i].Postings.SelectedReqSkillList != null)
+            //    {
+            //        AllApplications[i].Postings.SelectedReqSkillList = AllApplications[i].Postings.ReqSkills.Split(',').ToList();
+            //    }
+            //};
+            AllApplications = (from post in AllApplications orderby post.AppliedAt descending select post).ToList<ApplyFor>();
             return View(AllApplications);
         }
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SearchIt.DataAccess.Repository.IRepository;
 using SearchIt.Models;
 
@@ -85,6 +86,8 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             public string? AreaOfInterest { get; set; }
             public string? PreferredLocation { get; set; }
             public string? FullName { get; set; }
+            public List<string> AreasOfInterests { get; set; }
+            public List<string> KeySkills { get; set; }
 
         }
 
@@ -94,11 +97,16 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
+            ViewData["ListOfKeySkills"]  = _UnitOfWork.KeySkills.GetAll().Select(i => new SelectListItem
+            {
+                Value = i.Name,
+                Text = i.Name,
+            }).ToList();
 
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                
+
                 Dob = user.Dob,
                 Gender = user.Gender,
                 Highest_Qualification = user.Highest_Qualification,
@@ -109,11 +117,12 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
                 City = user.City,
                 State = user.State,
                 PostalCode = user.PostalCode,
-                AreaOfInterest = user.AreaOfInterest,
+                
                 PreferredLocation = user.PreferredLocation,
                 Country = user.Country,
                 FullName = user.FullName,
-                
+                AreasOfInterests = user.AreaOfInterest !=null?user.AreaOfInterest.Split(',').ToList():new List<string>(),
+                KeySkills = user.KeySkills != null?user.KeySkills.Split(',').ToList():new List<string>(),
             };
         }
 
@@ -196,10 +205,11 @@ namespace SearchItApp.Areas.Identity.Pages.Account.Manage
             user.City = Input.City;
             user.State = Input.State;
             user.PostalCode = Input.PostalCode;
-            user.AreaOfInterest = Input.AreaOfInterest;
+            user.AreaOfInterest = string.Join(',', Input.AreasOfInterests);
             user.PreferredLocation = Input.PreferredLocation;
             user.Country = Input.Country;
             user.FullName = Input.FullName;
+            user.KeySkills = String.Join(',', Input.KeySkills);
             await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             

@@ -30,6 +30,14 @@
                             <h4 class="h5">@Post.Post.PostName</h4>
                             <span class="badge bg-secondary">@Post.Post.State</span> <span class="badge bg-success">@Post.Post.PostMinSal.ToString("c") - @Post.Post.PostMaxSal.ToString("c")</span>
                             <span class="badge bg-info">@Post.Post.TypeOfJob</span>
+                            @if(Post.Post.SelectedReqSkillList != null)
+                            {
+                                foreach(string skill in Post.Post.SelectedReqSkillList)
+                                {
+                            <span class="badge bg-info">@skill</span>
+                                    
+                                }
+                            }
                         </div>
                         @*<div class="col-sm-4 py-2">
                             <span class="badge bg-secondary">GOLANG</span>

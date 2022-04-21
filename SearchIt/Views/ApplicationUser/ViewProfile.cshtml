@@ -150,6 +150,22 @@
                             </div>
                         </div>
                         <hr>
+                        @if(Model.User.KeySkills != null)
+                        {
+                            <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Skills</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                 @foreach(string skill in Model.User.KeySkills.Split(',').ToList()){
+                                  <span class="badge bg-info">@skill</span>
+
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        }
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <a class="btn btn-info " target="__blank">View CV</a>

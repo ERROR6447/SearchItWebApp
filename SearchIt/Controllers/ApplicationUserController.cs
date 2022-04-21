@@ -29,6 +29,7 @@ namespace SearchItApp.Controllers
             ApplicationUser user = _context.ApplicationUser.GetFirstOrDefault(x => x.Id == apply.UserId);
             user.PhoneNumber =  await _userManager.GetPhoneNumberAsync(user);
             user.UserName = await _userManager.GetUserNameAsync(user);
+            
             ApplyUserViewModel UserModel = new()
             {
                 User = user,

@@ -54,8 +54,8 @@ namespace SearchItApp.Controllers
                 temp = from post in temp where post.City == SearchCity select post;
             }
 
-            List<String?> tempState = _context.Company.GetAll().Select(x => x.State).Distinct().ToList();
-            List<String?> tempCity = _context.Company.GetAll().Select(x=>x.City).Distinct().ToList();
+            List<string?> tempState = _context.Company.GetAll().Select(x => x.State).Distinct().ToList();
+            List<string?> tempCity = _context.Company.GetAll().Select(x=>x.City).Distinct().ToList();
 
             PostingsViewModel PostsList = new()
             {

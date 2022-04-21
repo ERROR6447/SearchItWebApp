@@ -82,11 +82,19 @@
                 <span asp-validation-for="TypeOfJob" class="text-danger"></span>
             </div>
            
+            <div class="form-group col-12">
+                <label asp-for="SelectedReqSkillList" class="control-label"></label>
+                <select asp-for="SelectedReqSkillList" class="form-select" asp-items="Model.ReqSkillsList" id="ReqSkill" multiple></select>
+            </div>
+            
+            
             <div class="form-group p-2">
                 <input type="submit" value="Update" class="btn btn-success" />
                 <a asp-action="AllPosts" class="btn btn-info" >Back To All Posts</a>
                 <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.Id">Delete</a>
             </div>
+
+
         </form>
         
     </div>
@@ -96,4 +104,9 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    $(document).ready(function(){
+        $("#ReqSkill").chosen();
+    })
+    </script>
 }
