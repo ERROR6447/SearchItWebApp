@@ -116,6 +116,11 @@
                         {
                             <div class="btn btn-success">
                             <a asp-controller="AppliedFor" asp-action="ApplyToPost" asp-route-PostId="@Model.Postings.Id" class="btn" style="color:white">Apply Now</a>
+
+                            </div>
+                            <div class="btn btn-secondary">
+                            <a asp-controller="Companies" asp-action="Details" asp-route-id="@Model.Postings.CompanyId" asp-route-retpostid="@Model.Postings.Id" class="btn" style="color:white">View Company</a>
+                               
                             </div>
                         }
                     

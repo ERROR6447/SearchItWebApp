@@ -1,4 +1,19 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using SearchIt.DataAccess.Repository.IRepository
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IUnitOfWork UnitOfWork
+@{
+    string? UserId = null;
+    string? UserName = null;
+    int? CompanyId = null;
+    if(User.Identity.IsAuthenticated){
+         UserId = UserManager.GetUserId(User);
+         UserName = UnitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == UserId).Email;
+         CompanyId = UnitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == UserId).CompanyId;
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -16,7 +31,7 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" />
-
+    <link rel="stylesheet" href="~/css/chosen.min.css" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
@@ -36,7 +51,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                             if(UserName == "vivektandel404@gmail.com")
+                        {
+                             <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllUsers">All Users</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllCompany">All Company</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AllPosts">All Post</a></li>
+                        }
+                        else if(CompanyId == null){
+                          <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Index">Search</a></li>
+                          <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Offers" asp-action="ViewAllOffer">All Job Offers</a></li>
+                          <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="AppliedFor" asp-action="Index">AppliedFor</a></li>
+
+                        }
+                        else{
+                           <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Postings" asp-action="AllPosts">AllPosts</a></li>
+                               
+
+                        }
+                        }
+                       
+
+                        @*<li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Dropdown
                             </a>
@@ -71,12 +108,12 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Search" asp-action="Index">Search</a></li>
                                 <li><a class="dropdown-item" asp-area="" asp-controller="AppliedFor" asp-action="Index">AppliedFor</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Postings" asp-action="AllPosts">AllPosts</a></li>*@
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Postings" asp-action="AllPosts">AllPosts</a></li>
 
 
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
-                        </li>
+                        </li>*@
                     </ul>
 
                     <partial name="_LoginPartial" />
@@ -113,7 +150,7 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-
+    <script src="~/js/chosen.jquery.min.js" ></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

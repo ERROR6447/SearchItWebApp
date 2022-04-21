@@ -18,6 +18,8 @@ namespace SearchIt.DataAccess.Repository
         public ICompanyRepository Company { get; private set; }
         public IApplyForRepository Apply { get; private set; }
         public IOfferRepository Offers { get; private set; }
+        public ICategoryRepository Category { get; private set; }
+        public IKeySkillsRepository KeySkills { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db=db;
@@ -26,6 +28,8 @@ namespace SearchIt.DataAccess.Repository
             Company= new CompanyRepository(_db);
             Apply=new ApplyForRepository(_db);
             Offers=new OfferRepository(_db);
+            Category=new CategoryRepository(_db);
+            KeySkills = new KeySkillsRepository(_db);
 
         }
         public void Save()
