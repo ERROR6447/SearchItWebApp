@@ -1,0 +1,78 @@
+﻿@model List<BookMark>
+@{
+    ViewData["Title"] = "BookMarks";
+}
+
+<div class="container">
+    <div class="text-center mb-5">
+        <h3>User BookMarks</h3>
+        
+    </div>
+
+    @foreach (BookMark Post in @Model)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-column flex-lg-row">
+                    <span class="avatar avatar-text rounded-3 me-4 bg-warning mb-2">@Post.Postings.PostName.Substring(0,1)</span>
+                    <div class="row flex-fill">
+                        <div class="col-sm-9">
+                            <a asp-controller="Postings" asp-action="PostDetails" asp-route-id="@Post.PostId" style="text-decoration:none;color:black;"><h5 class="h5">@Post.Postings.PostName</h5> </a>
+                            <span class="badge bg-secondary">@Post.Postings.State</span> <span class="badge bg-success">@Post.Postings.PostMinSal.ToString("c") - @Post.Postings.PostMaxSal.ToString("c")</span>
+                            <span class="badge bg-info">@Post.Postings.TypeOfJob</span> <span class="badge bg-primary">@Post.Postings.Company.CompName</span>
+                        </div>
+
+                        <div class="col-sm-2 text-lg-end">
+                            <a class="btn btn-danger" onclick="RemoveBookMark(@Post.Id)">Remove</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+    @section Scripts{
+    <script>
+           function RemoveBookMark(id){
+                Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+              $.ajax({
+                url:"/Postings/RemoveBookMarkById/"+id,
+                type:"DELETE",
+                success:function(data){
+                    if(data.success){
+                        toastr.success(data.message);
+                        setTimeout(function(){
+                            Swal.fire(
+                          'Deleted!',
+                          'BookMark has been deleted.',
+                          'success'
+                        )
+                        },1000)
+                        window.location.reload();
+            
+                    }
+                    else{
+                        toastr.error(data.message);
+                    }
+                }
+            });
+             
+          }
+        })
+           }
+    </script>
+    }
+
+

@@ -20,6 +20,7 @@ namespace SearchIt.DataAccess.Repository
         public IOfferRepository Offers { get; private set; }
         public ICategoryRepository Category { get; private set; }
         public IKeySkillsRepository KeySkills { get; private set; }
+        public IBookMarkRepository BookMarks { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db=db;
@@ -30,6 +31,7 @@ namespace SearchIt.DataAccess.Repository
             Offers=new OfferRepository(_db);
             Category=new CategoryRepository(_db);
             KeySkills = new KeySkillsRepository(_db);
+            BookMarks = new BookMarkRepository(_db);
 
         }
         public void Save()
