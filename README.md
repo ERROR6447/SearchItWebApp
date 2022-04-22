@@ -12,4 +12,4 @@ Companies can post their vacancies and view responses to them and sort list and 
 
 Job Seeker can apply and view the status of their Application and can view and Accept Job Offer
 
-The Admin Can Block The Users and Can also Delet Post
+The Admin Can Block The Users and Can also Delete Post
