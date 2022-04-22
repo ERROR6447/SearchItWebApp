@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Upload Cv";
+}
+
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-9">
+        <form id="UploadCv" class="row g-3" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-6">
+                <input type="file" id="UploadBox" name="CV" class="form-control" />
+            </div>
+            <button id="UploadCVBtn" type="submit" class="w-100 btn btn-lg btn-success">Upload</button> 
+
+        </form>
+    </div>
+</div>
