@@ -15,26 +15,45 @@ namespace SearchIt.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [Display(Name = "Post Title")]
+
         public string PostName { get; set; }
+        [Display(Name = "Description")]
+
         public string PostDescription { get; set; }
+        [Display(Name = "Minimum Experience")]
 
         public string MinExp { get; set; }
+        [Display(Name = "Openings")]
+
         public int TotalVacancies { get; set; }
+        [Display(Name = "Minimum Salary")]
+
         public double PostMinSal { get; set; }
+        [Display(Name = "Maximum Salary")]
+
         public double PostMaxSal { get; set; }
+        [Display(Name = "Likes")]
+
         public int PostLike { get; set; } = 0;
+        [Display(Name = "DisLikes")]
+
         public int PostDisLike { get; set; } = 0;
         public int? CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         [ValidateNever]
         public Company Company { get; set; }
+        [Display(Name = "Type of Job")]
+
         public string TypeOfJob { get; set; }
         public string? StreetAddress { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
         public string? PostalCode { get; set; }
+        [Display(Name = "Phone Number")]
+
         public string? PhoneNumber { get; set; }
-        
+        [Display(Name ="Required Skills")]
         public string? ReqSkills { get; set; }
         [NotMapped]
         [ValidateNever]

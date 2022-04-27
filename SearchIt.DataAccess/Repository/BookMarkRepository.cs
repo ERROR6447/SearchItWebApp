@@ -17,9 +17,6 @@ namespace SearchIt.DataAccess.Repository
             _db = db;
         }
 
-        public void Update(BookMark post)
-        {
-            _db.Update(post);
-        }
+       
     }
 }

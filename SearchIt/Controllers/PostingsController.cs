@@ -201,32 +201,36 @@ namespace SearchItApp.Controllers
             return false;
         }
 
-        public void Like(int cartId)
+        public IActionResult Like(int PostId)
         {
-            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == cartId);
+            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == PostId);
             _context.Postings.IncrementLike(post, 1);
             _context.Save();
+            return Json(new { success= "true", message="Post Liked" });
 
         }
-        public void DisLike(int cartId)
+        public IActionResult DisLike(int PostId)
         {
-            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == cartId);
+            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == PostId);
             _context.Postings.IncrementDisLike(post, 1);
             _context.Save();
+            return Json(new { success = "true", message = "Post DisLiked" });
 
         }
-        public void DecLike(int cartId)
+        public IActionResult DecLike(int PostId)
         {
-            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == cartId);
+            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == PostId);
             _context.Postings.DecrementLike(post, 1);
             _context.Save();
+            return Json(new { success = "true", message = "Post Un Liked" });
 
         }
-        public void DecDisLike(int cartId)
+        public IActionResult DecDisLike(int PostId)
         {
-            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == cartId);
+            Postings post = _context.Postings.GetFirstOrDefault(u => u.Id == PostId);
             _context.Postings.DecrementDisLike(post, 1);
             _context.Save();
+            return Json(new { success = "true", message = "Post DisLike Removed" });
 
         }
 
@@ -298,6 +302,7 @@ namespace SearchItApp.Controllers
         public IActionResult RejectApplicant(int id)
         {
             ApplyFor post = _context.Apply.GetFirstOrDefault(u => u.ApplyId == id);
+            
             post.ApplyStatus = "Rejected";
             _context.Apply.Update(post);
             _context.Save();

@@ -82,9 +82,20 @@ function loadDataTable() {
             , "width": "15%" },
 
             {
-                "data": { applyId: "applyId" },
+                "data": { applyId: "applyId", applyStatus: "applyStatus" },
                 
                 "render": function (data) {
+                    if(data.applyStatus == "Job Accepted" || data.applyStatus == "Job Offered" ){
+                        return `
+                        <div class="w-75 btn-group" role="group">
+                        <a href="/ApplicationUser/ViewProfile/${data.applyId}"
+                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> View Profile</a>
+                        
+
+					</div>
+                        `
+                    }
+                    else{
                     return `
                         <div class="w-75 btn-group" role="group">
                         <a href="/ApplicationUser/ViewProfile/${data.applyId}"
@@ -94,6 +105,7 @@ function loadDataTable() {
 
 					</div>
                         `
+                        }
                 },
                 "width": "15%"
             }

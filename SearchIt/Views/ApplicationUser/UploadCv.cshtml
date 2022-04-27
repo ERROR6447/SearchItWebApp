@@ -1,4 +1,4 @@
-﻿
+﻿@model ApplicationUser
 @{
     ViewData["Title"] = "Upload Cv";
 }
@@ -12,8 +12,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-md-6">
                 <input type="file" id="UploadBox" name="CV" class="form-control" />
+                
             </div>
-            <button id="UploadCVBtn" type="submit" class="w-100 btn btn-lg btn-success">Upload</button> 
+            <div class="col-md-6">
+                @if(Model.CvUrl != null)
+                {
+                    <a href="@Model.CvUrl" target="_blank" class="btn btn-info">View CV</a>
+                }
+            </div>
+            <button id="UploadCVBtn" type="submit" class="w-50 btn  btn-success">Upload</button> 
 
         </form>
     </div>
