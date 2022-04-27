@@ -19,7 +19,11 @@ namespace SearchIt.Models
         [ValidateNever]
         public ApplyFor Apply { get; set; }
         [Required]
+        [Display(Name = "Amount")]
+
         public double Amt { get; set; }
+        [Display(Name = "Offer Description")]
+
         public string? OfferDescrip { get; set; }
     }
 }

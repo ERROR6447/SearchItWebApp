@@ -116,9 +116,9 @@
                         <li>Posted date : <span>@Model.Postings.CreatedAt</span></li>
                         <li>Location : <span>@Model.Postings.City</span></li>
                         <li>Vacancy : <span>@Model.Postings.TotalVacancies</span></li>
-                        <li>Job nature : <span>@Model.Postings.MinExp</span></li>
+                        <li>Job nature : <span>@Model.Postings.TypeOfJob</span></li>
                         <li>Salary :  <span>@Model.Postings.PostMinSal.ToString("c") - @Model.Postings.PostMaxSal.ToString("c") yearly</span></li>
-                        <li>Application date : <span>Not Defined</span></li>
+                        <li>Application date : <span>@Model.Postings.CreatedAt</span></li>
                     </ul>
                     
                         @if (Model.IsApplied)

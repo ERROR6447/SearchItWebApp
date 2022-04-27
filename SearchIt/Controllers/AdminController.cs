@@ -39,7 +39,7 @@ namespace SearchItApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            List<ApplicationUser> AllUsers = _context.ApplicationUser.GetAll().ToList();
+            List<ApplicationUser> AllUsers = _context.ApplicationUser.GetAll(u=>u.Email != "vivektandel404@gmail.com").ToList();
             
             for(int i = 0; i < AllUsers.Count(); i++)
             {

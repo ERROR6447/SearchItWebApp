@@ -37,11 +37,11 @@ namespace SearchItApp.Controllers
         public IActionResult Index(string? SearchState, string? SearchCity, string? search)
         {
 
-            IEnumerable<Postings> temp = _context.Postings.GetAll(u=>u.TotalVacancies > 0,includeProperties: "Company");
+            IEnumerable<Postings> temp = _context.Postings.GetAll(u=>u.TotalVacancies > 0 ,includeProperties: "Company");
 
             if (search != null && search !="")
             {
-               temp = from post in temp where post.PostName.Contains(search) select post;
+               temp = from post in temp where post.PostName.Contains(search) || post.ReqSkills.Contains(search) select post;
 
             }
             
@@ -54,8 +54,8 @@ namespace SearchItApp.Controllers
                 temp = from post in temp where post.City == SearchCity select post;
             }
 
-            List<string?> tempState = _context.Company.GetAll().Select(x => x.State).Distinct().ToList();
-            List<string?> tempCity = _context.Company.GetAll().Select(x=>x.City).Distinct().ToList();
+            List<string?> tempState = _context.Postings.GetAll().Select(x => x.State).Distinct().ToList();
+            List<string?> tempCity = _context.Postings.GetAll().Select(x=>x.City).Distinct().ToList();
 
             PostingsViewModel PostsList = new()
             {

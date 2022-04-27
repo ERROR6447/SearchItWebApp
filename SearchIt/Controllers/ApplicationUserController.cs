@@ -54,7 +54,8 @@ namespace SearchItApp.Controllers
 
         public IActionResult UploadCv()
         {
-            return View();
+            ApplicationUser user = _context.ApplicationUser.GetFirstOrDefault(u => u.Id == _userManager.GetUserId(User));
+            return View(user);
         }
 
 
